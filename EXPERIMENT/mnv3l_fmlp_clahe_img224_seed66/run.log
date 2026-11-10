@@ -1,0 +1,84 @@
+[10:58:26 +    0s] Start | model=mnv3l_fmlp_clahe | clahe=1 | img=224 | seed=66 | epochs=50+20 | cpu=4
+[10:58:26 +    0s] Dataset: /kaggle/input/datasets/elmadafri/the-wildfire-dataset/the_wildfire_dataset_2n_version
+[10:58:26 +    0s] cache hit: train (1887 gambar)
+[10:58:26 +    0s] cache hit: val (402 gambar)
+[10:58:26 +    0s] cache hit: test (410 gambar)
+[10:58:26 +    0s] Split (train/val/test): 1887/402/410 | gambar korup dilewati: 0
+[10:58:26 +    0s] Loading TensorFlow ...
+[10:58:30 +    4s] TF 2.20.0 | GPU: ['/physical_device:GPU:0', '/physical_device:GPU:1']
+[10:58:42 +   16s] mnv3l_fmlp_clahe (head=fmlp): params total 3,074,625 (backbone 2,996,352, head 78,273) | 0.439 GFLOPs | latensi b1 6.8 ms | 801 img/s (batch 32)
+[10:58:42 +   16s] == Exp1: frozen, 50 epoch ==
+[10:59:00 +   34s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 1/50 | loss 0.452 | val_loss 0.546 | val_auc 0.939 | lr 1.0e-03 | 18s | ETA 20.6 min
+[10:59:04 +   39s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 2/50 | loss 0.286 | val_loss 0.368 | val_auc 0.962 | lr 1.0e-03 | 4s | ETA 12.3 min
+[10:59:09 +   43s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 3/50 | loss 0.228 | val_loss 0.289 | val_auc 0.964 | lr 1.0e-03 | 4s | ETA 9.6 min
+[10:59:13 +   47s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 4/50 | loss 0.186 | val_loss 0.235 | val_auc 0.967 | lr 1.0e-03 | 4s | ETA 8.1 min
+[10:59:18 +   52s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 5/50 | loss 0.172 | val_loss 0.222 | val_auc 0.969 | lr 1.0e-03 | 4s | ETA 7.3 min
+[10:59:22 +   56s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 6/50 | loss 0.150 | val_loss 0.239 | val_auc 0.966 | lr 1.0e-03 | 4s | ETA 6.7 min
+[10:59:26 +   60s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 7/50 | loss 0.145 | val_loss 0.250 | val_auc 0.966 | lr 1.0e-03 | 4s | ETA 6.2 min
+[10:59:30 +   64s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 8/50 | loss 0.130 | val_loss 0.275 | val_auc 0.965 | lr 1.0e-03 | 4s | ETA 5.9 min
+[10:59:34 +   68s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 9/50 | loss 0.123 | val_loss 0.273 | val_auc 0.965 | lr 5.0e-04 | 4s | ETA 5.6 min
+[10:59:38 +   72s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 10/50 | loss 0.105 | val_loss 0.255 | val_auc 0.965 | lr 5.0e-04 | 4s | ETA 5.3 min
+[10:59:42 +   76s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 11/50 | loss 0.086 | val_loss 0.277 | val_auc 0.964 | lr 5.0e-04 | 4s | ETA 5.1 min
+[10:59:46 +   80s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 12/50 | loss 0.099 | val_loss 0.249 | val_auc 0.966 | lr 2.5e-04 | 4s | ETA 4.9 min
+[10:59:49 +   84s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 13/50 | loss 0.087 | val_loss 0.260 | val_auc 0.967 | lr 2.5e-04 | 4s | ETA 4.7 min
+[10:59:53 +   87s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 14/50 | loss 0.091 | val_loss 0.263 | val_auc 0.967 | lr 2.5e-04 | 4s | ETA 4.6 min
+[10:59:57 +   91s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 15/50 | loss 0.088 | val_loss 0.265 | val_auc 0.966 | lr 1.3e-04 | 4s | ETA 4.4 min
+[11:00:01 +   95s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 16/50 | loss 0.080 | val_loss 0.264 | val_auc 0.967 | lr 1.3e-04 | 4s | ETA 4.3 min
+[11:00:05 +   99s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 17/50 | loss 0.082 | val_loss 0.254 | val_auc 0.968 | lr 1.3e-04 | 4s | ETA 4.2 min
+[11:00:09 +  103s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 18/50 | loss 0.090 | val_loss 0.248 | val_auc 0.969 | lr 6.3e-05 | 4s | ETA 4.0 min
+[11:00:12 +  107s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 19/50 | loss 0.084 | val_loss 0.253 | val_auc 0.968 | lr 6.3e-05 | 4s | ETA 3.9 min
+[11:00:16 +  110s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 20/50 | loss 0.073 | val_loss 0.258 | val_auc 0.967 | lr 6.3e-05 | 4s | ETA 3.8 min
+[11:00:20 +  114s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 21/50 | loss 0.073 | val_loss 0.255 | val_auc 0.969 | lr 3.1e-05 | 4s | ETA 3.7 min
+[11:00:24 +  118s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 22/50 | loss 0.064 | val_loss 0.257 | val_auc 0.968 | lr 3.1e-05 | 4s | ETA 3.6 min
+[11:00:28 +  122s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 23/50 | loss 0.074 | val_loss 0.257 | val_auc 0.968 | lr 3.1e-05 | 4s | ETA 3.5 min
+[11:00:32 +  126s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 24/50 | loss 0.069 | val_loss 0.255 | val_auc 0.968 | lr 1.6e-05 | 4s | ETA 3.4 min
+[11:00:36 +  130s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 25/50 | loss 0.070 | val_loss 0.256 | val_auc 0.969 | lr 1.6e-05 | 4s | ETA 3.3 min
+[11:00:39 +  134s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 26/50 | loss 0.069 | val_loss 0.255 | val_auc 0.969 | lr 1.6e-05 | 4s | ETA 3.2 min
+[11:00:43 +  137s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 27/50 | loss 0.062 | val_loss 0.256 | val_auc 0.968 | lr 7.8e-06 | 4s | ETA 3.1 min
+[11:00:47 +  141s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 28/50 | loss 0.073 | val_loss 0.256 | val_auc 0.969 | lr 7.8e-06 | 4s | ETA 3.1 min
+[11:00:51 +  145s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 29/50 | loss 0.063 | val_loss 0.256 | val_auc 0.968 | lr 7.8e-06 | 4s | ETA 3.0 min
+[11:00:55 +  149s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 30/50 | loss 0.075 | val_loss 0.255 | val_auc 0.969 | lr 3.9e-06 | 4s | ETA 2.9 min
+[11:00:59 +  153s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 31/50 | loss 0.076 | val_loss 0.256 | val_auc 0.969 | lr 3.9e-06 | 4s | ETA 2.8 min
+[11:01:03 +  157s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 32/50 | loss 0.081 | val_loss 0.256 | val_auc 0.969 | lr 3.9e-06 | 4s | ETA 2.7 min
+[11:01:06 +  161s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 33/50 | loss 0.089 | val_loss 0.256 | val_auc 0.969 | lr 2.0e-06 | 4s | ETA 2.6 min
+[11:01:10 +  165s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 34/50 | loss 0.087 | val_loss 0.257 | val_auc 0.969 | lr 2.0e-06 | 4s | ETA 2.6 min
+[11:01:14 +  168s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 35/50 | loss 0.076 | val_loss 0.257 | val_auc 0.969 | lr 2.0e-06 | 4s | ETA 2.5 min
+[11:01:18 +  172s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 36/50 | loss 0.064 | val_loss 0.256 | val_auc 0.969 | lr 9.8e-07 | 4s | ETA 2.4 min
+[11:01:22 +  176s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 37/50 | loss 0.069 | val_loss 0.256 | val_auc 0.969 | lr 9.8e-07 | 4s | ETA 2.3 min
+[11:01:26 +  180s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 38/50 | loss 0.072 | val_loss 0.256 | val_auc 0.969 | lr 9.8e-07 | 4s | ETA 2.3 min
+[11:01:30 +  184s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 39/50 | loss 0.081 | val_loss 0.256 | val_auc 0.969 | lr 4.9e-07 | 4s | ETA 2.2 min
+[11:01:34 +  188s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 40/50 | loss 0.075 | val_loss 0.256 | val_auc 0.969 | lr 4.9e-07 | 4s | ETA 2.1 min
+[11:01:38 +  192s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 41/50 | loss 0.072 | val_loss 0.256 | val_auc 0.969 | lr 4.9e-07 | 4s | ETA 2.0 min
+[11:01:41 +  196s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 42/50 | loss 0.070 | val_loss 0.256 | val_auc 0.969 | lr 2.4e-07 | 4s | ETA 2.0 min
+[11:01:45 +  199s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 43/50 | loss 0.076 | val_loss 0.256 | val_auc 0.969 | lr 2.4e-07 | 4s | ETA 1.9 min
+[11:01:49 +  203s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 44/50 | loss 0.082 | val_loss 0.256 | val_auc 0.969 | lr 2.4e-07 | 4s | ETA 1.8 min
+[11:01:53 +  207s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 45/50 | loss 0.075 | val_loss 0.256 | val_auc 0.969 | lr 1.2e-07 | 4s | ETA 1.7 min
+[11:01:57 +  211s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 46/50 | loss 0.076 | val_loss 0.256 | val_auc 0.969 | lr 1.2e-07 | 4s | ETA 1.7 min
+[11:02:01 +  215s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 47/50 | loss 0.082 | val_loss 0.256 | val_auc 0.969 | lr 1.2e-07 | 4s | ETA 1.6 min
+[11:02:05 +  219s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 48/50 | loss 0.083 | val_loss 0.256 | val_auc 0.969 | lr 6.1e-08 | 4s | ETA 1.5 min
+[11:02:09 +  223s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 49/50 | loss 0.072 | val_loss 0.256 | val_auc 0.969 | lr 6.1e-08 | 4s | ETA 1.5 min
+[11:02:12 +  227s] [mnv3l_fmlp_clahe-224-s66 | Exp1 | frozen] epoch 50/50 | loss 0.081 | val_loss 0.256 | val_auc 0.969 | lr 6.1e-08 | 4s | ETA 1.4 min
+[11:02:18 +  232s] mnv3l_fmlp_clahe-224-s66 Exp1 TEST | thr 0.5: acc 0.9293 recall 0.9308 | thr-val 0.190: recall 0.9748 FAR 0.1873 | ROC-AUC 0.9806 PR-AUC 0.9756 | best epoch 5 | trainable 77,889
+[11:02:18 +  232s] == Exp2: fine-tune 30 layer terakhir, 20 epoch ==
+[11:02:33 +  247s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 1/20 | loss 0.151 | val_loss 0.222 | val_auc 0.970 | lr 1.0e-05 | 15s | ETA 4.8 min
+[11:02:38 +  253s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 2/20 | loss 0.136 | val_loss 0.224 | val_auc 0.970 | lr 1.0e-05 | 4s | ETA 2.9 min
+[11:02:43 +  257s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 3/20 | loss 0.133 | val_loss 0.226 | val_auc 0.970 | lr 1.0e-05 | 4s | ETA 2.3 min
+[11:02:47 +  261s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 4/20 | loss 0.149 | val_loss 0.226 | val_auc 0.970 | lr 1.0e-05 | 4s | ETA 1.9 min
+[11:02:52 +  266s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 5/20 | loss 0.132 | val_loss 0.227 | val_auc 0.970 | lr 5.0e-06 | 4s | ETA 1.6 min
+[11:02:56 +  270s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 6/20 | loss 0.119 | val_loss 0.228 | val_auc 0.970 | lr 5.0e-06 | 4s | ETA 1.4 min
+[11:03:00 +  275s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 7/20 | loss 0.117 | val_loss 0.228 | val_auc 0.970 | lr 5.0e-06 | 4s | ETA 1.3 min
+[11:03:05 +  279s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 8/20 | loss 0.130 | val_loss 0.228 | val_auc 0.970 | lr 2.5e-06 | 4s | ETA 1.1 min
+[11:03:09 +  283s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 9/20 | loss 0.116 | val_loss 0.228 | val_auc 0.970 | lr 2.5e-06 | 4s | ETA 1.0 min
+[11:03:14 +  288s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 10/20 | loss 0.123 | val_loss 0.228 | val_auc 0.971 | lr 2.5e-06 | 4s | ETA 0.9 min
+[11:03:18 +  292s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 11/20 | loss 0.121 | val_loss 0.228 | val_auc 0.970 | lr 1.2e-06 | 4s | ETA 0.8 min
+[11:03:22 +  297s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 12/20 | loss 0.129 | val_loss 0.228 | val_auc 0.970 | lr 1.2e-06 | 4s | ETA 0.7 min
+[11:03:27 +  301s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 13/20 | loss 0.124 | val_loss 0.228 | val_auc 0.970 | lr 1.2e-06 | 4s | ETA 0.6 min
+[11:03:31 +  305s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 14/20 | loss 0.123 | val_loss 0.228 | val_auc 0.970 | lr 6.2e-07 | 4s | ETA 0.5 min
+[11:03:35 +  310s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 15/20 | loss 0.114 | val_loss 0.228 | val_auc 0.970 | lr 6.2e-07 | 4s | ETA 0.4 min
+[11:03:40 +  314s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 16/20 | loss 0.112 | val_loss 0.228 | val_auc 0.970 | lr 6.2e-07 | 4s | ETA 0.3 min
+[11:03:44 +  318s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 17/20 | loss 0.117 | val_loss 0.228 | val_auc 0.970 | lr 3.1e-07 | 4s | ETA 0.3 min
+[11:03:48 +  323s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 18/20 | loss 0.128 | val_loss 0.229 | val_auc 0.970 | lr 3.1e-07 | 4s | ETA 0.2 min
+[11:03:53 +  327s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 19/20 | loss 0.125 | val_loss 0.229 | val_auc 0.970 | lr 3.1e-07 | 4s | ETA 0.1 min
+[11:03:57 +  331s] [mnv3l_fmlp_clahe-224-s66 | Exp2 | finetune] epoch 20/20 | loss 0.119 | val_loss 0.229 | val_auc 0.970 | lr 1.6e-07 | 4s | ETA 0.0 min
+[11:04:02 +  336s] mnv3l_fmlp_clahe-224-s66 Exp2 TEST | thr 0.5: acc 0.9366 recall 0.9308 | thr-val 0.171: recall 0.9748 FAR 0.1833 | ROC-AUC 0.9809 PR-AUC 0.9760 | best epoch 1 | trainable 1,664,289
+[11:04:02 +  336s] SELESAI dalam 5.6 menit | output: /kaggle/working/runs/mnv3l_fmlp_clahe_img224_seed66

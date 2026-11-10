@@ -1,0 +1,5 @@
+gradio>=5.0
+tensorflow>=2.20
+opencv-python>=4.10
+pandas>=2.2
+numpy>=2.0
