@@ -3,14 +3,15 @@ r"""Gradio demo for the Wildfire binary classifiers in EXPERIMENT.
 Run from the repository root:
     .venv\Scripts\python.exe app_gradio.py
 
-The app loads the final Exp2 checkpoint for each selected run.  It intentionally
-does not retrain models and uses the same 224px resize and optional LAB-CLAHE
-preprocessing as the experiment notebook.
+The app loads the final Exp2 checkpoint (seed 64 only) for each selected run.
+It intentionally does not retrain models and uses the same 224px resize and
+optional LAB-CLAHE preprocessing as the experiment notebook.
+
+Keputusan akhir FIRE hanya jika rata-rata probabilitas fire >= FIRE_MIN_AVG_PROB.
 """
 
 from __future__ import annotations
 
-import html
 import time
 from pathlib import Path
 from typing import Any
@@ -23,10 +24,13 @@ EXPERIMENT_DIR = ROOT / "EXPERIMENT"
 IMAGE_SIZE = 224
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
+SEED = 64
+FIRE_MIN_AVG_PROB = 0.85
+
 
 def _available_runs() -> list[str]:
     runs = []
-    for path in sorted(EXPERIMENT_DIR.glob("*_img224_seed*")):
+    for path in sorted(EXPERIMENT_DIR.glob(f"*_img224_seed{SEED}")):
         if (path / "exp2_best.weights.h5").is_file() and (
             path / "config.csv"
         ).is_file():
@@ -36,7 +40,7 @@ def _available_runs() -> list[str]:
 
 RUNS = _available_runs()
 if not RUNS:
-    raise RuntimeError(f"Tidak ada checkpoint Exp2 di {EXPERIMENT_DIR}")
+    raise RuntimeError(f"Tidak ada checkpoint Exp2 seed {SEED} di {EXPERIMENT_DIR}")
 
 
 def _run_config(run_name: str) -> dict[str, Any]:
@@ -67,7 +71,9 @@ def _backbone_arch(config: dict[str, Any], run_name: str) -> str:
 
 
 def _format_run(run_name: str) -> str:
-    return f"{_arch_from_run(run_name)} | seed {_run_config(run_name).get('seed', '?')}"
+    return (
+        f"{_arch_from_run(run_name)} | seed {_run_config(run_name).get('seed', SEED)}"
+    )
 
 
 def _import_runtime() -> tuple[Any, Any, Any]:
@@ -201,22 +207,27 @@ def _predict(run_name: str, processed: np.ndarray, tf: Any) -> tuple[float, floa
 
 
 def _threshold(run_name: str) -> float:
+    """Threshold validasi model, tidak boleh lebih rendah dari FIRE_MIN_AVG_PROB."""
     result_path = EXPERIMENT_DIR / run_name / "results.csv"
-    results = pd.read_csv(result_path)
-    selected = results[
-        (results["exp"] == "Exp2")
-        & (results["split"] == "test")
-        & (results["thr_type"].astype(str) == "val")
-    ]
-    return float(selected.iloc[0]["thr"]) if not selected.empty else 0.5
+    base = 0.5
+    if result_path.is_file():
+        results = pd.read_csv(result_path)
+        selected = results[
+            (results["exp"] == "Exp2")
+            & (results["split"] == "test")
+            & (results["thr_type"].astype(str) == "val")
+        ]
+        if not selected.empty:
+            base = float(selected.iloc[0]["thr"])
+    return max(base, FIRE_MIN_AVG_PROB)
 
 
 def _image_stats(original: np.ndarray, processed: np.ndarray, cv2: Any) -> pd.DataFrame:
-    gray = cv2.cvtColor(original[:, :, :3], cv2.COLOR_RGB2GRAY)
+    gray = cv2.cvtColor(original[:, :, :3].astype(np.uint8), cv2.COLOR_RGB2GRAY)
     hist = np.bincount(gray.ravel(), minlength=256).astype(np.float64)
     hist /= max(hist.sum(), 1)
     entropy = float(-(hist[hist > 0] * np.log2(hist[hist > 0])).sum())
-    hsv = cv2.cvtColor(original[:, :, :3], cv2.COLOR_RGB2HSV)
+    hsv = cv2.cvtColor(original[:, :, :3].astype(np.uint8), cv2.COLOR_RGB2HSV)
     return pd.DataFrame(
         [
             ["Resolusi asli", f"{original.shape[1]} x {original.shape[0]} px"],
@@ -280,13 +291,14 @@ def classify(image: np.ndarray | None, selected_runs: list[str] | None):
             raise gr.Error(str(exc)) from exc
         probability, latency_ms = _predict(run_name, processed, tf)
         threshold = _threshold(run_name)
+        is_fire = probability >= threshold
         rows.append(
             {
                 "Model": _format_run(run_name),
-                "Prediksi": "FIRE" if probability >= threshold else "NO FIRE",
+                "Prediksi": "FIRE" if is_fire else "NO FIRE",
                 "Probabilitas fire": probability,
-                "Threshold val": threshold,
-                "Confidence": max(probability, 1 - probability),
+                "Threshold": threshold,
+                "Confidence": probability if is_fire else 1 - probability,
                 "Latensi (ms)": latency_ms,
                 "CLAHE": "Ya" if use_clahe else "Tidak",
             }
@@ -298,18 +310,21 @@ def classify(image: np.ndarray | None, selected_runs: list[str] | None):
     predictions = pd.DataFrame(rows).sort_values("Probabilitas fire", ascending=False)
     n_total = len(predictions)
     n_fire = int((predictions["Prediksi"] == "FIRE").sum())
-    verdict = "FIRE" if n_fire > 0 and n_fire * 2 >= n_total else "NO FIRE"
+    avg_prob_value = float(predictions["Probabilitas fire"].mean())
+
+    # FIRE hanya jika rata-rata probabilitas >= 70%, selain itu NO FIRE.
+    verdict = "FIRE" if avg_prob_value >= FIRE_MIN_AVG_PROB else "NO FIRE"
     vote_ratio = f"{n_fire} / {n_total} Model"
-    avg_prob = f"{predictions['Probabilitas fire'].mean():.2%}"
+    avg_prob = f"{avg_prob_value:.2%}"
 
     label_probs = {
-        html.escape(str(r["Model"])): float(r["Probabilitas fire"])
+        str(r["Model"]): float(r["Probabilitas fire"])
         for _, r in predictions.iterrows()
     }
 
     table = predictions.copy()
     table["Probabilitas fire"] = table["Probabilitas fire"].map("{:.2%}".format)
-    table["Threshold val"] = table["Threshold val"].map("{:.3f}".format)
+    table["Threshold"] = table["Threshold"].map("{:.3f}".format)
     table["Confidence"] = table["Confidence"].map("{:.2%}".format)
     table["Latensi (ms)"] = table["Latensi (ms)"].map("{:.1f}".format)
 
@@ -334,29 +349,42 @@ def build_demo() -> Any:
     ][:3] or RUNS[:1]
     choices = [(_format_run(run), run) for run in RUNS]
 
-    # Hilangkan border putus-putus pada upload image & beri margin horizontal lebih tebal
     custom_css = """
     .main-container {
-        max-width: 1200px;
+        max-width: 1600px;
         margin: 0 auto;
-        padding: 0 8rem;
+        padding: 0 1.5rem;
     }
     @media (max-width: 768px) {
         .main-container {
             padding: 0 1rem;
         }
     }
-    /* Hapus border dashed pada komponen Image input/upload */
-    .image-container, .upload-container, div[data-testid="image"] {
-        border-style: solid !important;
+    /* Hilangkan outline putus-putus pada area upload gambar */
+    #upload-image,
+    #upload-image *,
+    #upload-image *::before,
+    #upload-image *::after,
+    .dashed,
+    [class*="dashed"] {
+        border: none !important;
+        border-style: none !important;
+        border-width: 0 !important;
+        outline: none !important;
+        box-shadow: none !important;
+        --block-border-width: 0px;
+        --block-border-color: transparent;
+        --border-color-primary: transparent;
+        --border-color-accent: transparent;
     }
     """
 
     with gr.Blocks(title="Wildfire FireDet", css=custom_css) as demo:
         with gr.Column(elem_classes="main-container"):
             gr.Markdown(
-                "# Wildfire FireDet\n"
-                "Sistem klasifikasi **fire / no fire** berbasis citra digital dengan pembandingan multi-checkpoint Exp2."
+                "# Aplikasi Klasifikasi Citra Kebakaran Hutan Berbasis MobileNetV3 dengan Fusi Fitur Multiskala (Wildfire FireDet)\n"
+                "Aplikasi web untuk mengklasifikasikan citra hutan menjadi fire atau no fire dengan membandingkan beberapa model MobileNetV3 berfusi fitur multiskala, serta menampilkan probabilitas, hasil praproses, dan ringkasan kinerja untuk membantu menekan alarm palsu."
+                f" Pembandingan multi-checkpoint Exp2 (seed {SEED}). "
             )
 
             with gr.Row(equal_height=False):
@@ -366,6 +394,7 @@ def build_demo() -> Any:
                         image = gr.Image(
                             type="numpy",
                             label="Upload Gambar",
+                            elem_id="upload-image",
                             sources=["upload", "clipboard"],
                         )
 
@@ -385,7 +414,6 @@ def build_demo() -> Any:
 
                 # Panel Kanan: Hasil & Analisis
                 with gr.Column(scale=6):
-                    # 3 Card Statistik Terpisah
                     with gr.Row():
                         card_verdict = gr.Textbox(
                             label="Hasil Utama",
@@ -393,7 +421,7 @@ def build_demo() -> Any:
                             interactive=False,
                         )
                         card_votes = gr.Textbox(
-                            label="Voting Mayoritas",
+                            label="Voting Model FIRE",
                             value="-",
                             interactive=False,
                         )
@@ -432,33 +460,21 @@ def build_demo() -> Any:
                             )
 
         # Event Handlers
-        button.click(
-            classify,
-            inputs=[image, models],
-            outputs=[
-                card_verdict,
-                card_votes,
-                card_avg,
-                probs,
-                processed,
-                image_stats,
-                predictions,
-            ],
-        )
+        outputs = [
+            card_verdict,
+            card_votes,
+            card_avg,
+            probs,
+            processed,
+            image_stats,
+            predictions,
+        ]
+        button.click(classify, inputs=[image, models], outputs=outputs)
         select_all.click(lambda: RUNS, outputs=models)
         reset_sel.click(lambda: default_runs, outputs=models)
         reset.click(
             lambda: (None, "-", "-", "-", None, None, None, None),
-            outputs=[
-                image,
-                card_verdict,
-                card_votes,
-                card_avg,
-                probs,
-                processed,
-                image_stats,
-                predictions,
-            ],
+            outputs=[image, *outputs],
         )
         demo.load(_benchmark, outputs=benchmark)
 
